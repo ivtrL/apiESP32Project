@@ -2,9 +2,6 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { users } from 'src/controllers/auth.controller';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-// dotenv.config({ path: '../../.env' });
 
 @Injectable()
 export class verifyRefreshJWTMiddleware implements NestMiddleware {

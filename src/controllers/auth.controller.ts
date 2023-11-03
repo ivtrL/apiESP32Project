@@ -1,6 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { Login } from 'src/dtos/login';
 import jwt from 'jsonwebtoken';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: './../../.env' });
 
 export const users = [
   {

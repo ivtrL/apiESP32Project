@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider =  "prisma-client-js"
+}
+
+datasource db {
+  provider =  "postgresql"
+  url      =  env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  name        String?
+  password    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String    @unique
+  cards       Card[]
+  logs        Log[]
+}
+
+model Card {
+  id          Int       @id @default(autoincrement())
+  cardUid     String    @unique
+  user        User      @relation(fields: [userId], references: [userId])
+  userId      String
+}
+
+model Device {
+  id          Int       @id @default(autoincrement())
+  deviceUid   String    @unique
+  deviceName  String
+  Logs        Log[]
+}
+
+model Log {
+  id          Int       @id @default(autoincrement())
+  logId       String    @unique
+  userId      String
+  user        User      @relation(fields: [userId], references: [userId])
+  deviceUid   String    
+  device      Device    @relation(fields: [deviceUid], references: [deviceUid])
+  time        Time[]
+}
+
+model Time {
+  id          Int       @id @default(autoincrement())
+  logId       String
+  log         Log       @relation(fields: [logId], references: [logId])
+  exit        Boolean
+  createdAt   DateTime  @default(now())
+}
