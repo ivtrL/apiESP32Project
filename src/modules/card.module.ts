@@ -6,20 +6,19 @@ import {
 } from '@nestjs/common';
 import { CardController } from '../controllers/card.controller';
 import { verifyAccessJWTMiddleware } from 'src/middleware/verifyAccessJWT.middleware';
+import { PrismaService } from 'src/database/prisma.service';
+import { DatabaseService } from 'src/services/databaseService.service';
 
 @Module({
   imports: [],
   controllers: [CardController],
-  providers: [],
+  providers: [PrismaService, DatabaseService],
 })
 export class CardModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(verifyAccessJWTMiddleware)
-      .exclude(
-        { path: 'api', method: RequestMethod.ALL },
-        { path: 'api/login', method: RequestMethod.ALL },
-      )
+      .exclude('api/(.*)')
       .forRoutes(CardController);
   }
 }

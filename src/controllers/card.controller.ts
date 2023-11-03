@@ -3,9 +3,8 @@ import { CheckCardDto } from 'src/dtos/check-card';
 import { users } from './auth.controller';
 import { Login } from 'src/dtos/login';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-// dotenv.config({ path: '../../.env' });
+import { User } from '@prisma/client';
+import { DatabaseService } from 'src/services/databaseService.service';
 
 export const cards = [
   { cardUid: '', personName: '' },
@@ -15,6 +14,8 @@ export const cards = [
 
 @Controller('api')
 export class CardController {
+  constructor(private readonly prisma: DatabaseService) {}
+
   @Get()
   getHello(): string {
     return 'Hello World from get!';
@@ -23,6 +24,23 @@ export class CardController {
   @Post()
   postHello(): string {
     return 'Hello World from post!';
+  }
+
+  @Get('users')
+  async getUsers(): Promise<User[]> {
+    return this.prisma.getUsers();
+  }
+
+  @Post('delete-user')
+  async deleteUser(@Body() userData: { userId: string }): Promise<User> {
+    return this.prisma.deleteUser(userData);
+  }
+
+  @Post('user')
+  async postUser(
+    @Body() userData: { email: string; password: string; userId: string },
+  ): Promise<User> {
+    return this.prisma.createUser(userData);
   }
 
   @Post('check-card')
