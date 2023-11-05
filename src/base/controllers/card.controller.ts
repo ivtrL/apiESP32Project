@@ -4,9 +4,12 @@ import { users } from './auth.controller';
 import { Login } from 'src/common/dtos/login';
 import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
+import { UserRepository } from '../repositories/prisma/UserRepository';
 
 @Controller('api')
 export class CardController {
+  constructor(private UserRepository: UserRepository) {}
+
   @Get()
   getHello(): string {
     return 'Hello World from get!';
@@ -19,12 +22,12 @@ export class CardController {
 
   @Get('users')
   async getUsers(): Promise<User[]> {
-    return this.prisma.getUsers();
+    return this.UserRepository.getAllUsers();
   }
 
   @Post('delete-user')
   async deleteUser(@Body() userData: { userId: string }): Promise<User> {
-    return this.prisma.deleteUser(userData);
+    return this.UserRepository.deleteUser(userData);
   }
 
   @Post('user')

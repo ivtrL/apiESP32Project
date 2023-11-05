@@ -49,7 +49,7 @@ export abstract class AbstractUserRepository {
 }
 
 export abstract class AbstractTimeRepository {
-  abstract createTime(logId: string): Promise<void>;
+  abstract createTime(logId: string, booleanExit: boolean): Promise<void>;
   abstract getAllTimes(): Promise<Time[]>;
   abstract findByTime(time: Date): Promise<Time[]>;
   abstract findByLogId(logId: string): Promise<Time[]>;

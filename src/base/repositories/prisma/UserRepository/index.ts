@@ -1,6 +1,6 @@
 import { PrismaService } from 'src/base/database/prisma.service';
 import { Injectable } from '@nestjs/common';
-import { AbstractUserRepository } from '../';
+import { AbstractUserRepository } from '../..';
 import { randomBytes } from 'node:crypto';
 import { User } from '@prisma/client';
 
