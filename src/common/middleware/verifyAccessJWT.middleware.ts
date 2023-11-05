@@ -1,10 +1,10 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { users } from 'src/controllers/auth.controller';
+import { users } from 'src/base/controllers/auth.controller';
 import jwt from 'jsonwebtoken';
 
 @Injectable()
-export class verifyRefreshJWTMiddleware implements NestMiddleware {
+export class verifyAccessJWTMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
     const userdb = users.find(
@@ -15,11 +15,11 @@ export class verifyRefreshJWTMiddleware implements NestMiddleware {
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
     }
-    jwt.verify(token, process.env.REFRESH_SECRET_TOKEN, (err, user) => {
+    jwt.verify(token, process.env.ACCESS_SECRET_TOKEN, (err, user) => {
       if (err) {
-        return res.status(403).json({ message: 'Invalid refresh token' });
+        return res.status(403).json({ message: 'Invalid access token' });
       } else if (user != userdb) {
-        return res.status(403).json({ message: 'Invalid refresh token' });
+        return res.status(403).json({ message: 'Invalid access token' });
       }
       req.body.user = user;
     });

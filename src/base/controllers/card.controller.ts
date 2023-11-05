@@ -1,21 +1,12 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CheckCardDto } from 'src/dtos/check-card';
+import { CheckCardDto } from 'src/common/dtos/check-card';
 import { users } from './auth.controller';
-import { Login } from 'src/dtos/login';
+import { Login } from 'src/common/dtos/login';
 import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
-import { DatabaseService } from 'src/services/databaseService.service';
-
-export const cards = [
-  { cardUid: '', personName: '' },
-  { cardUid: '', personName: '' },
-  { cardUid: '', personName: '' },
-];
 
 @Controller('api')
 export class CardController {
-  constructor(private readonly prisma: DatabaseService) {}
-
   @Get()
   getHello(): string {
     return 'Hello World from get!';
@@ -59,6 +50,7 @@ export class CardController {
       message: 'Authorized',
     };
   }
+
   @Post('refresh-token')
   async postRefreshToken(@Body() body: Login): Promise<object> {
     const { email, password } = body;

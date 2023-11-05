@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { Login } from 'src/dtos/login';
+import { Login } from 'src/common/dtos/login';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 
