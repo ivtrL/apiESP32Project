@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { Login } from 'src/common/dtos/login';
+import { Login } from 'src/common/dtos/Login';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { UserRepository } from '../repositories/prisma/UserRepository';

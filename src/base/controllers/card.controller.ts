@@ -9,8 +9,8 @@ import { LogRepository } from '../repositories/prisma/LogRepository';
 import { DeviceRepository } from '../repositories/prisma/DeviceRepository';
 import { TimeRepository } from '../repositories/prisma/TimeRepository';
 import { CardRepository } from '../repositories/prisma/CardRepository';
-import { CreateUserDto } from 'src/common/dtos/create-user';
-import { Login } from 'src/common/dtos/login';
+import { CreateUserDto } from 'src/common/dtos/CreateUser';
+import { Login } from 'src/common/dtos/Login';
 
 @Controller('api')
 export class CardController {
