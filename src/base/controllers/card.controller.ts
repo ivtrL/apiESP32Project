@@ -2,7 +2,7 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
 import { Response } from 'express';
-import { CheckCardDto } from 'src/common/dtos/check-card';
+import { CheckCardDto } from 'src/common/dtos/CheckCard';
 import { User } from '@prisma/client';
 import { UserRepository } from '../repositories/prisma/UserRepository';
 import { LogRepository } from '../repositories/prisma/LogRepository';
