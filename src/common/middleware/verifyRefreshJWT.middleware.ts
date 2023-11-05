@@ -1,15 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { users } from 'src/base/controllers/auth.controller';
 import jwt from 'jsonwebtoken';
+import { UserRepository } from 'src/base/repositories/prisma/UserRepository';
 
 @Injectable()
 export class verifyRefreshJWTMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
+  constructor(private UserRepository: UserRepository) {}
+
+  async use(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
-    const userdb = users.find(
-      (user) => user.email === email && user.password === password,
-    );
+    const userdb = await this.UserRepository.findByEmail(email);
+    if (!userdb) {
+      return res.status(404).json({ message: 'User not found' });
+    } else if (userdb[0].password !== password) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) {
