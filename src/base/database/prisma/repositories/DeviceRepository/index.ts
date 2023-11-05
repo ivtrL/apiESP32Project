@@ -8,10 +8,10 @@ import { PrismaService } from 'src/base/database/prisma.service';
 export class DeviceRepository implements AbstractDeviceRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  createDevice(deviceName: string): Promise<void> {
+  async createDevice(deviceName: string): Promise<void> {
     const deviceUid = randomBytes(16).toString('hex');
 
-    this.prisma.device.create({
+    await this.prisma.device.create({
       data: {
         deviceName,
         deviceUid,
@@ -20,25 +20,28 @@ export class DeviceRepository implements AbstractDeviceRepository {
     return;
   }
 
-  getAllDevices(): Promise<Device[]> {
-    return this.prisma.device.findMany();
+  async getAllDevices(): Promise<Device[]> {
+    return await this.prisma.device.findMany();
   }
 
-  findByDeviceUid(deviceUid: string): Promise<Device> {
-    return this.prisma.device.findUnique({ where: { deviceUid } });
+  async findByDeviceUid(deviceUid: string): Promise<Device> {
+    return await this.prisma.device.findUnique({ where: { deviceUid } });
   }
 
-  findByDeviceName(deviceName: string): Promise<Device[]> {
-    return this.prisma.device.findMany({ where: { deviceName } });
+  async findByDeviceName(deviceName: string): Promise<Device[]> {
+    return await this.prisma.device.findMany({ where: { deviceName } });
   }
 
-  updateDevice(deviceUid: string, deviceName: string): Promise<void> {
-    this.prisma.device.update({ where: { deviceUid }, data: { deviceName } });
+  async updateDevice(deviceUid: string, deviceName: string): Promise<void> {
+    await this.prisma.device.update({
+      where: { deviceUid },
+      data: { deviceName },
+    });
     return;
   }
 
-  deleteDevice(deviceUid: string): Promise<void> {
-    this.prisma.device.delete({ where: { deviceUid } });
+  async deleteDevice(deviceUid: string): Promise<void> {
+    await this.prisma.device.delete({ where: { deviceUid } });
     return;
   }
 }

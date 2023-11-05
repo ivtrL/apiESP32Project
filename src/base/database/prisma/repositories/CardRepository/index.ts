@@ -7,8 +7,8 @@ import { Card } from '@prisma/client';
 export class CardRepository implements AbstractCardRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  createCard(cardUid: string, userId?: string): Promise<void> {
-    this.prisma.card.create({
+  async createCard(cardUid: string, userId?: string): Promise<void> {
+    await this.prisma.card.create({
       data: {
         cardUid,
         userId,
@@ -17,25 +17,25 @@ export class CardRepository implements AbstractCardRepository {
     return;
   }
 
-  getAllCards(): Promise<Card[]> {
-    return this.prisma.card.findMany();
+  async getAllCards(): Promise<Card[]> {
+    return await this.prisma.card.findMany();
   }
 
-  findByCardUid(cardUid: string): Promise<Card> {
-    return this.prisma.card.findUnique({ where: { cardUid } });
+  async findByCardUid(cardUid: string): Promise<Card> {
+    return await this.prisma.card.findUnique({ where: { cardUid } });
   }
 
-  findByUserId(userId: string): Promise<Card[]> {
-    return this.prisma.card.findMany({ where: { userId } });
+  async findByUserId(userId: string): Promise<Card[]> {
+    return await this.prisma.card.findMany({ where: { userId } });
   }
 
-  updateCard(cardUid: string, userId: string): Promise<void> {
-    this.prisma.card.update({ where: { cardUid }, data: { userId } });
+  async updateCard(cardUid: string, userId: string): Promise<void> {
+    await this.prisma.card.update({ where: { cardUid }, data: { userId } });
     return;
   }
 
-  deleteCard(cardUid: string): Promise<void> {
-    this.prisma.card.delete({ where: { cardUid } });
+  async deleteCard(cardUid: string): Promise<void> {
+    await this.prisma.card.delete({ where: { cardUid } });
     return;
   }
 }

@@ -7,8 +7,8 @@ import { PrismaService } from 'src/base/database/prisma.service';
 export class TimeRepository implements AbstractTimeRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  createTime(logId: string, booleanExit: boolean): Promise<void> {
-    this.prisma.time.create({
+  async createTime(logId: string, booleanExit: boolean): Promise<void> {
+    await this.prisma.time.create({
       data: {
         exit: booleanExit,
         logId,
@@ -17,24 +17,24 @@ export class TimeRepository implements AbstractTimeRepository {
     return;
   }
 
-  getAllTimes(): Promise<Time[]> {
-    return this.prisma.time.findMany();
+  async getAllTimes(): Promise<Time[]> {
+    return await this.prisma.time.findMany();
   }
 
-  findByTime(time: Date): Promise<Time[]> {
-    return this.prisma.time.findMany({ where: { createdAt: time } });
+  async findByTime(time: Date): Promise<Time[]> {
+    return await this.prisma.time.findMany({ where: { createdAt: time } });
   }
 
-  findByLogId(logId: string): Promise<Time[]> {
-    return this.prisma.time.findMany({ where: { logId } });
+  async findByLogId(logId: string): Promise<Time[]> {
+    return await this.prisma.time.findMany({ where: { logId } });
   }
 
-  findByBooleanExit(booleanExit: boolean): Promise<Time[]> {
-    return this.prisma.time.findMany({ where: { exit: booleanExit } });
+  async findByBooleanExit(booleanExit: boolean): Promise<Time[]> {
+    return await this.prisma.time.findMany({ where: { exit: booleanExit } });
   }
 
-  deleteTimes(logId: string): Promise<void> {
-    this.prisma.time.deleteMany({ where: { logId } });
+  async deleteTimes(logId: string): Promise<void> {
+    await this.prisma.time.deleteMany({ where: { logId } });
     return;
   }
 }

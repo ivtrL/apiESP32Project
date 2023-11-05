@@ -8,10 +8,14 @@ import { User } from '@prisma/client';
 export class UserRepository implements AbstractUserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  createUser(email: string, password: string, name?: string): Promise<void> {
+  async createUser(
+    email: string,
+    password: string,
+    name?: string,
+  ): Promise<void> {
     const userId = randomBytes(16).toString('hex');
 
-    this.prisma.user.create({
+    await this.prisma.user.create({
       data: {
         email,
         password,
@@ -22,32 +26,32 @@ export class UserRepository implements AbstractUserRepository {
     return;
   }
 
-  getAllUsers(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async getAllUsers(): Promise<User[]> {
+    return await this.prisma.user.findMany();
   }
 
-  findById(userId: string): Promise<User> {
-    return this.prisma.user.findUnique({ where: { userId } });
+  async findById(userId: string): Promise<User> {
+    return await this.prisma.user.findUnique({ where: { userId } });
   }
 
-  findByEmail(email: string): Promise<User[]> {
-    return this.prisma.user.findMany({ where: { email } });
+  async findByEmail(email: string): Promise<User[]> {
+    return await this.prisma.user.findMany({ where: { email } });
   }
 
-  findByName(name: string): Promise<User[]> {
-    return this.prisma.user.findMany({ where: { name } });
+  async findByName(name: string): Promise<User[]> {
+    return await this.prisma.user.findMany({ where: { name } });
   }
 
-  updateUser(
+  async updateUser(
     userId: string,
     data: { email?: string; password?: string; name?: string },
   ): Promise<void> {
-    this.prisma.user.update({ where: { userId }, data });
+    await this.prisma.user.update({ where: { userId }, data });
     return;
   }
 
-  deleteUser(userId: string): Promise<void> {
-    this.prisma.user.delete({ where: { userId } });
+  async deleteUser(userId: string): Promise<void> {
+    await this.prisma.user.delete({ where: { userId } });
     return;
   }
 }
