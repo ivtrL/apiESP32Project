@@ -1,4 +1,4 @@
-import { Log, User, Device, Card, Time } from '@prisma/client';
+import { Log, User, Device, Card, Time, Admin } from '@prisma/client';
 
 export abstract class AbstractDeviceRepository {
   abstract createDevice(deviceName: string): Promise<void>;
@@ -55,4 +55,18 @@ export abstract class AbstractTimeRepository {
   abstract findByLogId(logId: string): Promise<Time[]>;
   abstract findByBooleanExit(booleanExit: boolean): Promise<Time[]>;
   abstract deleteTimes(logId: string): Promise<void>;
+}
+
+export abstract class AbstractAdminRepository {
+  abstract createAdmin(
+    email: string,
+    password: string,
+    name?: string,
+  ): Promise<void>;
+  abstract findByEmail(email: string): Promise<Admin>;
+  abstract updateAdmin(
+    AdminId: string,
+    data: { email?: string; password?: string; name?: string },
+  ): Promise<void>;
+  abstract deleteAdmin(AdminId: string): Promise<void>;
 }

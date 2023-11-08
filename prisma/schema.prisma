@@ -53,3 +53,11 @@ model Time {
   exit        Boolean
   createdAt   DateTime  @default(now())
 }
+
+model Admin {
+  id         Int       @id @default(autoincrement())
+  AdminId    String    @unique
+  email      String    @unique
+  password   String
+  name       String?
+}

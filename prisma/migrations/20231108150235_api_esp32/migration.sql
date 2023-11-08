@@ -43,6 +43,15 @@ CREATE TABLE "Time" (
     CONSTRAINT "Time_logId_fkey" FOREIGN KEY ("logId") REFERENCES "Log" ("logId") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "Admin" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "AdminId" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "name" TEXT
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -57,3 +66,9 @@ CREATE UNIQUE INDEX "Device_deviceUid_key" ON "Device"("deviceUid");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Log_logId_key" ON "Log"("logId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_AdminId_key" ON "Admin"("AdminId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Admin_email_key" ON "Admin"("email");
