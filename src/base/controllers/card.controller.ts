@@ -5,9 +5,6 @@ import { Response } from 'express';
 import { CheckCardDto } from 'src/common/dtos/CheckCard';
 import { User } from '@prisma/client';
 import { UserRepository } from '../repositories/prisma/UserRepository';
-import { LogRepository } from '../repositories/prisma/LogRepository';
-import { DeviceRepository } from '../repositories/prisma/DeviceRepository';
-import { TimeRepository } from '../repositories/prisma/TimeRepository';
 import { CardRepository } from '../repositories/prisma/CardRepository';
 import { CreateUserDto } from 'src/common/dtos/CreateUser';
 import { Login } from 'src/common/dtos/Login';
@@ -16,9 +13,6 @@ import { Login } from 'src/common/dtos/Login';
 export class CardController {
   constructor(
     private UserRepository: UserRepository,
-    private LogRepository: LogRepository,
-    private DeviceRepository: DeviceRepository,
-    private TimeRepository: TimeRepository,
     private CardRepository: CardRepository,
   ) {}
 
