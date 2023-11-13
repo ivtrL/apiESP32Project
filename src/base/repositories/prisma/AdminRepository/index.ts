@@ -27,6 +27,10 @@ export class AdminRepository implements AbstractAdminRepository {
     return await this.prisma.admin.findUnique({ where: { email } });
   }
 
+  async findById(AdminId: string): Promise<Admin> {
+    return await this.prisma.admin.findUnique({ where: { AdminId } });
+  }
+
   async updateAdmin(
     AdminId: string,
     data: { email?: string; password?: string; name?: string },

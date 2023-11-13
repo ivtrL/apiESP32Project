@@ -16,24 +16,22 @@ import { Response } from 'express';
 import { User } from '@prisma/client';
 import { EditUserDto } from 'src/common/dtos/EditUser';
 
-@Controller('api')
+@Controller('api/user')
 export class UserController {
   constructor(private UserRepository: UserRepository) {}
-  @Post('user/create')
+
+  @Post('create')
   async createUser(
     @Body() body: CreateUserDto,
     @Res() res: Response,
-  ): Promise<void> {
+  ): Promise<Response> {
     const { email, password, name } = body;
     await this.UserRepository.createUser(email, password, name);
+
+    return res.status(201).send();
   }
 
-  @Delete('user/delete/:id')
-  async deleteUser(@Param('id') id: string): Promise<void> {
-    await this.UserRepository.deleteUser(id);
-  }
-
-  @Get('user')
+  @Get()
   async getUsers(
     @Query('id') id?: string,
     @Query('name') name?: string,
@@ -49,7 +47,7 @@ export class UserController {
     return this.UserRepository.getAllUsers();
   }
 
-  @Put('user/update/:id')
+  @Put('update/:id')
   async updateUser(
     @Param('id') id: string,
     @Body() body: EditUserDto,
@@ -62,5 +60,10 @@ export class UserController {
 
     await this.UserRepository.updateUser(id, { email, password, name });
     return res.status(200).send();
+  }
+
+  @Delete('delete/:id')
+  async deleteUser(@Param('id') id: string): Promise<void> {
+    await this.UserRepository.deleteUser(id);
   }
 }
