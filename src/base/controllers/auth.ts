@@ -2,32 +2,21 @@ import { Controller, Headers, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { DeviceRepository } from '../repositories/prisma/DeviceRepository';
 import jwt from 'jsonwebtoken';
-import { Admin } from '@prisma/client';
+import { object, string, number } from 'yup';
 
-interface IJWTDevice {
-  deviceName: string;
-  deviceUid: string;
-  email: string;
-  password: string;
-}
+const DeviceSchema = object({
+  deviceName: string().required(),
+  deviceUid: string().required(),
+  email: string().email().required(),
+  password: string().required(),
+});
 
-function CheckJWTAdminPayload(x: unknown): x is Admin {
-  return (
-    (x as Admin).id !== undefined &&
-    (x as Admin).email !== undefined &&
-    (x as Admin).password !== undefined &&
-    (x as Admin).name !== undefined
-  );
-}
-
-function CheckJWTDevicePayload(x: unknown): x is IJWTDevice {
-  return (
-    (x as IJWTDevice).deviceUid !== undefined &&
-    (x as IJWTDevice).email !== undefined &&
-    (x as IJWTDevice).password !== undefined &&
-    (x as IJWTDevice).deviceName !== undefined
-  );
-}
+const AdminSchema = object({
+  id: number().required(),
+  name: string().notRequired(),
+  email: string().email().required(),
+  password: string().required(),
+});
 
 @Controller('api/auth')
 export class AuthController {
@@ -48,7 +37,7 @@ export class AuthController {
         refreshToken,
         process.env.REFRESH_SECRET_TOKEN,
       );
-      if (!CheckJWTDevicePayload(decoded)) {
+      if (!DeviceSchema.isValidSync(decoded)) {
         return res.status(401).json({ message: 'Invalid refresh token' });
       }
       const device = await this.deviceRepository.findByDeviceUid(
@@ -82,7 +71,7 @@ export class AuthController {
         process.env.REFRESH_SECRET_TOKEN,
       );
       if (!decoded) return res.status(401).json({ message: 'Invalid token' });
-      if (!CheckJWTAdminPayload(decoded))
+      if (!AdminSchema.isValidSync(decoded))
         return res.status(401).json({ message: 'Invalid payload' });
       const newAccessToken = jwt.sign(
         decoded,
