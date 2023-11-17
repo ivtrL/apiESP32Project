@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/base/database/prisma';
+import { PrismaService } from 'src/base/database/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { AbstractUserRepository } from '../..';
 import { randomBytes } from 'node:crypto';

@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { AbstractAdminRepository } from '../..';
-import { PrismaService } from 'src/base/database/prisma';
+import { PrismaService } from 'src/base/database/prisma.service';
 import { Admin } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class AdminRepository implements AbstractAdminRepository {
   constructor(private readonly prisma: PrismaService) {}
 

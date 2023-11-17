@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import jwt from 'jsonwebtoken';
 import {
   Body,
@@ -11,16 +10,18 @@ import {
   Res,
   Query,
 } from '@nestjs/common';
-import { DeviceRepository } from '../repositories/prisma/DeviceRepository';
 import { DeviceNameDto } from 'src/common/dtos/DeviceName';
 import { Response } from 'express';
-import { AdminRepository } from '../repositories/prisma/AdminRepository';
+import {
+  AbstractAdminRepository,
+  AbstractDeviceRepository,
+} from '../repositories';
 
 @Controller('api/device')
 export class DeviceController {
   constructor(
-    private deviceRepository: DeviceRepository,
-    private adminRepository: AdminRepository,
+    private deviceRepository: AbstractDeviceRepository,
+    private adminRepository: AbstractAdminRepository,
   ) {}
 
   // FOR ADMIN WEBSITE

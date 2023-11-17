@@ -10,14 +10,14 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/common/dtos/CreateUser';
-import { UserRepository } from '../repositories/prisma/UserRepository';
 import { Response } from 'express';
 import { User } from '@prisma/client';
 import { EditUserDto } from 'src/common/dtos/EditUser';
+import { AbstractUserRepository } from '../repositories';
 
 @Controller('api/user')
 export class UserController {
-  constructor(private userRepository: UserRepository) {}
+  constructor(private userRepository: AbstractUserRepository) {}
 
   @Post('create')
   async createUser(

@@ -63,6 +63,7 @@ export abstract class AbstractAdminRepository {
     password: string,
     name?: string,
   ): Promise<void>;
+  abstract findById(AdminId: string): Promise<Admin>;
   abstract findByEmail(email: string): Promise<Admin>;
   abstract updateAdmin(
     AdminId: string,

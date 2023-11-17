@@ -1,12 +1,12 @@
 import { Body, Controller, Post, Res, Put, Param } from '@nestjs/common';
-import { AdminRepository } from '../repositories/prisma/AdminRepository';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { Login } from 'src/common/dtos/Login';
+import { AbstractAdminRepository } from '../repositories';
 
 @Controller('api/admin')
 export class AdminController {
-  constructor(private adminRepository: AdminRepository) {}
+  constructor(private adminRepository: AbstractAdminRepository) {}
 
   @Post('login')
   async postLoginAdmin(
@@ -44,5 +44,15 @@ export class AdminController {
     const admin = await this.adminRepository.findById(id);
 
     return res.status(200).json({ message: 'Admin updated', admin });
+  }
+
+  @Post('create')
+  async createAdmin(
+    @Body() body: { email: string; password: string; name: string },
+    @Res() res: Response,
+  ): Promise<Response> {
+    const { email, password } = body;
+    await this.adminRepository.createAdmin(email, password);
+    return res.status(201).json({ message: 'Admin created' });
   }
 }

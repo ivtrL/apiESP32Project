@@ -2,7 +2,7 @@ import { Device } from '@prisma/client';
 import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { AbstractDeviceRepository } from '../..';
-import { PrismaService } from 'src/base/database/prisma';
+import { PrismaService } from 'src/base/database/prisma.service';
 
 @Injectable()
 export class DeviceRepository implements AbstractDeviceRepository {

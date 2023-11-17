@@ -1,8 +1,8 @@
 import { Controller, Headers, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { DeviceRepository } from '../repositories/prisma/DeviceRepository';
 import jwt from 'jsonwebtoken';
 import { object, string, number } from 'yup';
+import { AbstractDeviceRepository } from '../repositories';
 
 const DeviceSchema = object({
   deviceName: string().required(),
@@ -20,7 +20,7 @@ const AdminSchema = object({
 
 @Controller('api/auth')
 export class AuthController {
-  constructor(private deviceRepository: DeviceRepository) {}
+  constructor(private deviceRepository: AbstractDeviceRepository) {}
 
   // FOR ADMIN ESP32
   @Post('refresh-token/device')

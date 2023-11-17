@@ -1,11 +1,11 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { CardRepository } from '../repositories/prisma/CardRepository';
 import { Response } from 'express';
 import { CheckCardDto } from 'src/common/dtos/CheckCard';
+import { AbstractCardRepository } from '../repositories';
 
 @Controller('api/card')
 export class CardController {
-  constructor(private cardRepository: CardRepository) {}
+  constructor(private cardRepository: AbstractCardRepository) {}
 
   @Post('check')
   async checkcard(
