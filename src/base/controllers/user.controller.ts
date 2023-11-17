@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Post,
   Body,
@@ -18,7 +17,7 @@ import { EditUserDto } from 'src/common/dtos/EditUser';
 
 @Controller('api/user')
 export class UserController {
-  constructor(private UserRepository: UserRepository) {}
+  constructor(private userRepository: UserRepository) {}
 
   @Post('create')
   async createUser(
@@ -26,7 +25,7 @@ export class UserController {
     @Res() res: Response,
   ): Promise<Response> {
     const { email, password, name } = body;
-    await this.UserRepository.createUser(email, password, name);
+    await this.userRepository.createUser(email, password, name);
 
     return res.status(201).send();
   }
@@ -38,13 +37,13 @@ export class UserController {
     @Query('email') email?: string,
   ): Promise<User | User[]> {
     if (id) {
-      return this.UserRepository.findById(id);
+      return this.userRepository.findById(id);
     } else if (name) {
-      return this.UserRepository.findByName(name);
+      return this.userRepository.findByName(name);
     } else if (email) {
-      return this.UserRepository.findByEmail(email);
+      return this.userRepository.findByEmail(email);
     }
-    return this.UserRepository.getAllUsers();
+    return this.userRepository.getAllUsers();
   }
 
   @Put('update/:id')
@@ -58,12 +57,12 @@ export class UserController {
       return res.status(400).json({ message: 'No data provided' });
     }
 
-    await this.UserRepository.updateUser(id, { email, password, name });
+    await this.userRepository.updateUser(id, { email, password, name });
     return res.status(200).send();
   }
 
   @Delete('delete/:id')
   async deleteUser(@Param('id') id: string): Promise<void> {
-    await this.UserRepository.deleteUser(id);
+    await this.userRepository.deleteUser(id);
   }
 }

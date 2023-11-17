@@ -26,7 +26,7 @@ export class AdminController {
     });
 
     const refreshToken = jwt.sign(admin, process.env.REFRESH_SECRET_TOKEN, {
-      expiresIn: '3d',
+      expiresIn: '1d',
     });
 
     return res.status(201).json({
