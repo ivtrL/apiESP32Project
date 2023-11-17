@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { AbstractAdminRepository } from '../..';
-import { PrismaService } from 'src/base/database/prisma.service';
+import { PrismaService } from 'src/base/database/prisma';
 import { Admin } from '@prisma/client';
 
 export class AdminRepository implements AbstractAdminRepository {

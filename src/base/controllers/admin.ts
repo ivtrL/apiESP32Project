@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Body, Controller, Post, Res, Put, Param } from '@nestjs/common';
 import { AdminRepository } from '../repositories/prisma/AdminRepository';
 import { Response } from 'express';
@@ -7,7 +6,7 @@ import { Login } from 'src/common/dtos/Login';
 
 @Controller('api/admin')
 export class AdminController {
-  constructor(private AdminRepository: AdminRepository) {}
+  constructor(private adminRepository: AdminRepository) {}
 
   @Post('login')
   async postLoginAdmin(
@@ -15,7 +14,7 @@ export class AdminController {
     @Res() res: Response,
   ): Promise<Response> {
     const { email, password } = body;
-    const admin = this.AdminRepository.findByEmail(email);
+    const admin = this.adminRepository.findByEmail(email);
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' });
     } else if (admin[0].password !== password) {
@@ -41,8 +40,8 @@ export class AdminController {
     @Body() body: { email?: string; password?: string; name?: string },
     @Res() res: Response,
   ): Promise<Response> {
-    await this.AdminRepository.updateAdmin(id, body);
-    const admin = await this.AdminRepository.findById(id);
+    await this.adminRepository.updateAdmin(id, body);
+    const admin = await this.adminRepository.findById(id);
 
     return res.status(200).json({ message: 'Admin updated', admin });
   }

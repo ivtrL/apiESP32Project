@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { CardController } from 'src/base/controllers/card.controller';
-import { verifyAccessJWTMiddleware } from 'src/common/middleware/verifyAccessJWT.middleware';
-import { PrismaService } from 'src/base/database/prisma.service';
+import { CardController } from 'src/base/controllers/card';
+import { VerifyJwtMiddleware } from 'src/common/middleware/verifyAccessJWT';
+import { PrismaService } from 'src/base/database/prisma';
 import {
   AbstractCardRepository,
   AbstractDeviceRepository,
@@ -14,8 +14,6 @@ import { UserRepository } from 'src/base/repositories/prisma/UserRepository';
 import { DeviceRepository } from 'src/base/repositories/prisma/DeviceRepository';
 import { TimeRepository } from 'src/base/repositories/prisma/TimeRepository';
 import { LogRepository } from 'src/base/repositories/prisma/LogRepository';
-import { verifyRefreshJWTMiddleware } from '../middleware/verifyRefreshJWT.middleware';
-import { AuthController } from 'src/base/controllers/auth.controller';
 
 @Module({
   imports: [],
@@ -47,10 +45,8 @@ import { AuthController } from 'src/base/controllers/auth.controller';
 export class CardModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(verifyAccessJWTMiddleware)
+      .apply(VerifyJwtMiddleware)
       .exclude('api/(.*)')
       .forRoutes(CardController);
-
-    consumer.apply(verifyRefreshJWTMiddleware).forRoutes(AuthController);
   }
 }

@@ -1,7 +1,7 @@
 import { AbstractTimeRepository } from '../..';
 import { Time } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/base/database/prisma.service';
+import { PrismaService } from 'src/base/database/prisma';
 
 @Injectable()
 export class TimeRepository implements AbstractTimeRepository {

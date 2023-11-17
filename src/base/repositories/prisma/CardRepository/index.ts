@@ -1,4 +1,4 @@
-import { PrismaService } from 'src/base/database/prisma.service';
+import { PrismaService } from 'src/base/database/prisma';
 import { AbstractCardRepository } from '../..';
 import { Injectable } from '@nestjs/common';
 import { Card } from '@prisma/client';

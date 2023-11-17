@@ -2,7 +2,7 @@ import { Log } from '@prisma/client';
 import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { AbstractLogRepository } from '../..';
-import { PrismaService } from 'src/base/database/prisma.service';
+import { PrismaService } from 'src/base/database/prisma';
 
 @Injectable()
 export class LogRepository implements AbstractLogRepository {
