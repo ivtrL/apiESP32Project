@@ -1,6 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { CardModule } from './common/modules/card.module';
 import { ValidationPipe } from '@nestjs/common';
+import * as dotenv from 'dotenv';
+
+dotenv.config({ path: '../.env' });
 
 async function bootstrap() {
   const app = await NestFactory.create(CardModule);

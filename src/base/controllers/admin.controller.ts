@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Res, Put, Param } from '@nestjs/common';
 import { Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { Login } from 'src/common/dtos/Login';
+import * as jwt from 'jsonwebtoken';
+import { Login } from 'src/common/dtos/login';
 import { AbstractAdminRepository } from '../repositories';
 
 @Controller('api/admin')
@@ -14,12 +14,14 @@ export class AdminController {
     @Res() res: Response,
   ): Promise<Response> {
     const { email, password } = body;
-    const admin = this.adminRepository.findByEmail(email);
+    const admin = await this.adminRepository.findByEmail(email);
     if (!admin) {
       return res.status(404).json({ message: 'Admin not found' });
-    } else if (admin[0].password !== password) {
+    } else if (admin.password !== password) {
       return res.status(401).json({ message: 'Invalid password' });
     }
+
+    console.log(admin);
     const accessToken = jwt.sign(admin, process.env.ACCESS_SECRET_TOKEN, {
       expiresIn: '1h',
     });
@@ -48,11 +50,11 @@ export class AdminController {
 
   @Post('create')
   async createAdmin(
-    @Body() body: { email: string; password: string; name: string },
+    @Body() body: { email: string; password: string; name?: string },
     @Res() res: Response,
   ): Promise<Response> {
-    const { email, password } = body;
-    await this.adminRepository.createAdmin(email, password);
+    const { email, password, name } = body;
+    await this.adminRepository.createAdmin(email, password, name);
     return res.status(201).json({ message: 'Admin created' });
   }
 }
