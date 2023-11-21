@@ -89,6 +89,7 @@ export class DeviceController {
     },
     @Res() res: Response,
   ): Promise<Response> {
+    console.log(body);
     const { deviceName, deviceUid, email, password } = body;
 
     const device = await this.deviceRepository.findByDeviceUid(deviceUid);
