@@ -20,4 +20,14 @@ export class CardController {
     }
     return res.status(200).json({ message: 'Authorized' });
   }
+
+  @Post('create')
+  async createCard(
+    @Body() body: { cardUid: string; userId?: string },
+    @Res() res: Response,
+  ): Promise<Response> {
+    const { cardUid, userId } = body;
+    await this.cardRepository.createCard(cardUid, userId);
+    return res.status(201).json({ message: 'Card created' });
+  }
 }
