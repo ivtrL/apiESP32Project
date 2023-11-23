@@ -6,6 +6,8 @@ import {
   AbstractAdminRepository,
   AbstractCardRepository,
   AbstractDeviceRepository,
+  AbstractLogRepository,
+  AbstractTimeRepository,
   AbstractUserRepository,
 } from 'src/base/repositories';
 import { CardRepository } from 'src/base/repositories/prisma/CardRepository';
@@ -16,6 +18,8 @@ import { DeviceController } from 'src/base/controllers/device.controller';
 import { UserRepository } from 'src/base/repositories/prisma/UserRepository';
 import { DeviceRepository } from 'src/base/repositories/prisma/DeviceRepository';
 import { AdminRepository } from 'src/base/repositories/prisma/AdminRepository';
+import { LogRepository } from 'src/base/repositories/prisma/LogRepository';
+import { TimeRepository } from 'src/base/repositories/prisma/TimeRepository';
 
 @Module({
   imports: [],
@@ -43,6 +47,14 @@ import { AdminRepository } from 'src/base/repositories/prisma/AdminRepository';
     {
       provide: AbstractAdminRepository,
       useClass: AdminRepository,
+    },
+    {
+      provide: AbstractLogRepository,
+      useClass: LogRepository,
+    },
+    {
+      provide: AbstractTimeRepository,
+      useClass: TimeRepository,
     },
   ],
 })
