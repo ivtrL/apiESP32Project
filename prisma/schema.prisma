@@ -24,7 +24,6 @@ model User {
   updatedAt   DateTime  @updatedAt
   userId      String    @unique
   cards       Card[]
-  logs        Log[]
 }
 
 model Card {
@@ -32,6 +31,7 @@ model Card {
   cardUid     String    @unique
   user        User      @relation(fields: [userId], references: [userId])
   userId      String
+  logs        Log[]
 }
 
 model Device {
@@ -44,11 +44,12 @@ model Device {
 model Log {
   id          Int       @id @default(autoincrement())
   logId       String    @unique
-  userId      String
-  user        User      @relation(fields: [userId], references: [userId])
+  cardUid      String
+  card        Card      @relation(fields: [cardUid], references: [cardUid])
   deviceUid   String    
   device      Device    @relation(fields: [deviceUid], references: [deviceUid])
   time        Time[]
+  Authorized  Boolean
 }
 
 model Time {

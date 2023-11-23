@@ -1,5 +1,4 @@
 import { Log } from '@prisma/client';
-import { randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
 import { AbstractLogRepository } from '../..';
 import { PrismaService } from 'src/base/database/prisma.service';
@@ -8,29 +7,40 @@ import { PrismaService } from 'src/base/database/prisma.service';
 export class LogRepository implements AbstractLogRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createLog(userId: string, deviceUid: string): Promise<void> {
-    const logId = randomBytes(16).toString('hex');
-
-    await this.prisma.log.create({
+  async createLog(
+    logId: string,
+    cardUid: string,
+    deviceUid: string,
+    Authorized: boolean,
+  ): Promise<Log> {
+    return await this.prisma.log.create({
       data: {
-        userId,
+        cardUid,
         deviceUid,
         logId,
+        Authorized,
       },
     });
-    return;
   }
 
   async getAllLogs(): Promise<Log[]> {
     return await this.prisma.log.findMany();
   }
 
+  async getLatestAuthorizedLog(cardUid: string): Promise<Log[]> {
+    return await this.prisma.log.findMany({
+      orderBy: { id: 'desc' },
+      where: { Authorized: true, cardUid },
+      take: 1,
+    });
+  }
+
   async findByLogId(logId: string): Promise<Log> {
     return await this.prisma.log.findUnique({ where: { logId } });
   }
 
-  async findByUserId(userId: string): Promise<Log[]> {
-    return await this.prisma.log.findMany({ where: { userId } });
+  async findByCardUid(cardUid: string): Promise<Log[]> {
+    return await this.prisma.log.findMany({ where: { cardUid } });
   }
 
   async findByDeviceUid(deviceUid: string): Promise<Log[]> {
@@ -39,7 +49,7 @@ export class LogRepository implements AbstractLogRepository {
 
   async updateLog(
     logId: string,
-    data: { userId?: string; deviceUid?: string },
+    data: { cardUid?: string; deviceUid?: string },
   ): Promise<void> {
     await this.prisma.log.update({ where: { logId }, data });
     return;
@@ -50,8 +60,8 @@ export class LogRepository implements AbstractLogRepository {
     return;
   }
 
-  async deleteLogs(userId: string): Promise<void> {
-    await this.prisma.log.deleteMany({ where: { userId } });
+  async deleteLogs(cardUid: string): Promise<void> {
+    await this.prisma.log.deleteMany({ where: { cardUid } });
     return;
   }
 }

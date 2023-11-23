@@ -19,16 +19,23 @@ export abstract class AbstractCardRepository {
 }
 
 export abstract class AbstractLogRepository {
-  abstract createLog(userId: string, deviceUid: string): Promise<void>;
+  abstract createLog(
+    logId: string,
+    cardUid: string,
+    deviceUid: string,
+    Authorized: boolean,
+  ): Promise<Log>;
   abstract getAllLogs(): Promise<Log[]>;
+  abstract getLatestAuthorizedLog(cardUid: string): Promise<Log[]>;
   abstract findByLogId(logId: string): Promise<Log>;
-  abstract findByUserId(userId: string): Promise<Log[]>;
+  abstract findByCardUid(cardUid: string): Promise<Log[]>;
   abstract findByDeviceUid(deviceUid: string): Promise<Log[]>;
   abstract updateLog(
     logId: string,
-    data: { userId?: string; deviceUid?: string },
+    data: { cardUid?: string; deviceUid?: string },
   ): Promise<void>;
   abstract deleteLog(logId: string): Promise<void>;
+  abstract deleteLogs(cardUid: string): Promise<void>;
 }
 
 export abstract class AbstractUserRepository {
