@@ -9,9 +9,9 @@ export class LogRepository implements AbstractLogRepository {
 
   async createLog(
     logId: string,
-    cardUid: string,
     deviceUid: string,
     Authorized: boolean,
+    cardUid?: string,
   ): Promise<Log> {
     return await this.prisma.log.create({
       data: {

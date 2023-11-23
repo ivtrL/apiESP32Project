@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url  	= env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
   // If you want to use Prisma Migrate, you will need to manually create a shadow database
   // https://neon.tech/docs/guides/prisma-migrate#configure-a-shadow-database-for-prisma-migrate
@@ -16,54 +16,54 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String    @unique
-  name        String?
-  password    String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  userId      String    @unique
-  cards       Card[]
+  id        Int      @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String   @id @unique
+  cards     Card[]
 }
 
 model Card {
-  id          Int       @id @default(autoincrement())
-  cardUid     String    @unique
-  user        User      @relation(fields: [userId], references: [userId])
-  userId      String
-  logs        Log[]
+  id      Int    @default(autoincrement())
+  cardUid String @id @unique
+  user    User   @relation(fields: [userId], references: [userId])
+  userId  String
+  logs    Log[]
 }
 
 model Device {
-  id          Int       @id @default(autoincrement())
-  deviceUid   String    @unique
-  deviceName  String
-  Logs        Log[]
+  id         Int    @default(autoincrement())
+  deviceUid  String @id @unique
+  deviceName String
+  Logs       Log[]
 }
 
 model Log {
-  id          Int       @id @default(autoincrement())
-  logId       String    @unique
-  cardUid      String
-  card        Card      @relation(fields: [cardUid], references: [cardUid])
-  deviceUid   String    
-  device      Device    @relation(fields: [deviceUid], references: [deviceUid])
-  time        Time[]
-  Authorized  Boolean
+  id         Int     @default(autoincrement())
+  logId      String  @id @unique
+  cardUid    String?
+  card       Card?   @relation(fields: [cardUid], references: [cardUid])
+  deviceUid  String
+  device     Device  @relation(fields: [deviceUid], references: [deviceUid])
+  time       Time[]
+  Authorized Boolean
 }
 
 model Time {
-  id          Int       @id @default(autoincrement())
-  logId       String
-  log         Log       @relation(fields: [logId], references: [logId])
-  exit        Boolean
-  createdAt   DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  logId     String
+  log       Log      @relation(fields: [logId], references: [logId])
+  exit      Boolean
+  createdAt DateTime @default(now())
 }
 
 model Admin {
-  id         Int       @id @default(autoincrement())
-  AdminId    String    @unique
-  email      String    @unique
-  password   String
-  name       String?
+  id       Int     @default(autoincrement())
+  AdminId  String  @id @unique
+  email    String  @unique
+  password String
+  name     String?
 }

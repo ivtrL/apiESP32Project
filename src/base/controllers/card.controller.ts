@@ -21,17 +21,18 @@ export class CardController {
     @Res() res: Response,
   ): Promise<Response> {
     const { cardUid, deviceUid } = body;
-
+    console.log(cardUid);
     const card = await this.cardRepository.findByCardUid(cardUid);
+    console.log(card);
     if (!card) {
       const logId = randomBytes(64).toString('hex');
-      await this.logRepository.createLog(logId, cardUid, deviceUid, false);
+      await this.logRepository.createLog(logId, deviceUid, false);
       return res.status(404).json({ message: 'Blocked' });
     }
     const logArray = await this.logRepository.getLatestAuthorizedLog(cardUid);
     if (logArray.length === 0) {
       const logId = randomBytes(64).toString('hex');
-      await this.logRepository.createLog(logId, cardUid, deviceUid, true);
+      await this.logRepository.createLog(logId, deviceUid, true, cardUid);
       await this.timeRepository.createTime(logId, false);
       return res.status(200).json({ message: 'Authorized' });
     }
@@ -46,7 +47,7 @@ export class CardController {
       return res.status(200).json({ message: 'Authorized' });
     }
     const logId = randomBytes(64).toString('hex');
-    await this.logRepository.createLog(logId, cardUid, deviceUid, true);
+    await this.logRepository.createLog(logId, deviceUid, true, cardUid);
     await this.timeRepository.createTime(logId, false);
     return res.status(200).json({ message: 'Authorized' });
   }

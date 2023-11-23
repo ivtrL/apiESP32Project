@@ -21,9 +21,9 @@ export abstract class AbstractCardRepository {
 export abstract class AbstractLogRepository {
   abstract createLog(
     logId: string,
-    cardUid: string,
     deviceUid: string,
     Authorized: boolean,
+    cardUid?: string,
   ): Promise<Log>;
   abstract getAllLogs(): Promise<Log[]>;
   abstract getLatestAuthorizedLog(cardUid: string): Promise<Log[]>;
