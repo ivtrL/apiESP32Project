@@ -29,7 +29,6 @@ export class LogRepository implements AbstractLogRepository {
 
   async getLatestAuthorizedLog(cardUid: string): Promise<Log[]> {
     return await this.prisma.log.findMany({
-      orderBy: { id: 'desc' },
       where: { Authorized: true, cardUid },
       take: 1,
     });

@@ -20,10 +20,11 @@ import { DeviceRepository } from 'src/base/repositories/prisma/DeviceRepository'
 import { AdminRepository } from 'src/base/repositories/prisma/AdminRepository';
 import { LogRepository } from 'src/base/repositories/prisma/LogRepository';
 import { TimeRepository } from 'src/base/repositories/prisma/TimeRepository';
-import { ImageModule } from './image.module';
+import { FirebaseModule } from './firebase.module';
+import { ImageService } from '../services/image.service';
 
 @Module({
-  imports: [ImageModule],
+  imports: [FirebaseModule],
   controllers: [
     CardController,
     AdminController,
@@ -32,6 +33,7 @@ import { ImageModule } from './image.module';
     DeviceController,
   ],
   providers: [
+    ImageService,
     PrismaService,
     {
       provide: AbstractCardRepository,
