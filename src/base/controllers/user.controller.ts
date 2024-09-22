@@ -24,7 +24,12 @@ export class UserController {
     @Body() body: CreateUserDto,
     @Res() res: Response,
   ): Promise<Response> {
-    const { email, password, name } = body;
+    const { email, password, name, imageUrl } = body;
+    if (imageUrl) {
+      await this.userRepository.createUser(email, password, name, imageUrl);
+      return res.status(201).send();
+    }
+
     await this.userRepository.createUser(email, password, name);
 
     return res.status(201).send();

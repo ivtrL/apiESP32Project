@@ -20,9 +20,10 @@ import { DeviceRepository } from 'src/base/repositories/prisma/DeviceRepository'
 import { AdminRepository } from 'src/base/repositories/prisma/AdminRepository';
 import { LogRepository } from 'src/base/repositories/prisma/LogRepository';
 import { TimeRepository } from 'src/base/repositories/prisma/TimeRepository';
+import { ImageModule } from './image.module';
 
 @Module({
-  imports: [],
+  imports: [ImageModule],
   controllers: [
     CardController,
     AdminController,

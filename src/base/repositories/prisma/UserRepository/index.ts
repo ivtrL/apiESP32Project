@@ -12,6 +12,7 @@ export class UserRepository implements AbstractUserRepository {
     email: string,
     password: string,
     name?: string,
+    imageUrl?: string,
   ): Promise<void> {
     const userId = randomBytes(16).toString('hex');
 
@@ -21,6 +22,7 @@ export class UserRepository implements AbstractUserRepository {
         password,
         name,
         userId,
+        imageUrl,
       },
     });
     return;

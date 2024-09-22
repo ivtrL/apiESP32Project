@@ -43,6 +43,7 @@ export abstract class AbstractUserRepository {
     email: string,
     password: string,
     name?: string,
+    imageUrl?: string,
   ): Promise<void>;
   abstract getAllUsers(): Promise<User[]>;
   abstract findById(userId: string): Promise<User>;
